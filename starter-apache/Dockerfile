@@ -11,7 +11,9 @@ ARG PHP_VERSION=7.4
 FROM php:${PHP_VERSION}-apache
 
 RUN apt-get -y update
-RUN apt-get -y install git libzip-dev postgresql-client zlib1g unzip
+RUN apt-get -y install git libzip-dev postgresql-client zlib1g unzip libmcrypt-dev libpq-dev
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pgsql pdo_pgsql
 
 # "php" enable mode rewrite
 RUN a2enmod rewrite
